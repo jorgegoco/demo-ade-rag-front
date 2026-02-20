@@ -14,7 +14,9 @@ import SimilarityBar from './SimilarityBar'
 export default function SourceCard({ source }) {
   const [expanded, setExpanded] = useState(false)
 
-  const preview = source.text_preview || ''
+  // ADE wraps chunks with <a id='uuid'></a> anchor tags — strip them before display
+  const raw = source.text_preview || ''
+  const preview = raw.replace(/<a[^>]*><\/a>/g, '').trim()
   const isLong = preview.length > 120
   const displayText = expanded || !isLong ? preview : preview.slice(0, 120) + '…'
 

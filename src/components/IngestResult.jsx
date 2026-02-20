@@ -35,7 +35,9 @@ export default function IngestResult({ result }) {
           <FileText className="w-4 h-4 text-slate-400" />
           <span className="font-medium truncate max-w-xs">{document_name}</span>
         </div>
-        <span>{parsing?.total_pages ?? '—'} pages</span>
+        {parsing?.total_pages > 1 && (
+          <span>{parsing.total_pages} pages</span>
+        )}
         <span>{indexing?.chunks_embedded ?? parsing?.total_chunks ?? '—'} chunks indexed</span>
       </div>
 
