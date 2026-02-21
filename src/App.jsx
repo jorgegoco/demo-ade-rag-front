@@ -6,7 +6,7 @@
 //   Query  — ask questions, retrieve relevant chunks, get an AI-generated answer
 
 import { useState, useEffect } from 'react'
-import { Upload, MessageSquare } from 'lucide-react'
+import { Upload, MessageSquare, Info } from 'lucide-react'
 
 import { getStatus, ingestDocument, queryDocument } from './api/client'
 
@@ -153,6 +153,21 @@ export default function App() {
         {/* ── Ingest tab ── */}
         {activeTab === 'ingest' && (
           <div className="bg-white rounded-b-xl rounded-tr-xl border border-slate-200 p-5 sm:p-6 flex flex-col gap-5 shadow-sm">
+            <div className="flex gap-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+              <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+              <div className="flex flex-col gap-1">
+                <p>
+                  <strong>Demo pre-loaded:</strong> This service comes ready to query with Apple's 10-K annual
+                  report (FY2023) — 453 indexed chunks. You can start asking questions immediately.
+                </p>
+                <p className="text-blue-600">
+                  Want to try with your own document? Upload any PDF, image, Word, or spreadsheet file below.
+                  Your upload will replace the demo document for this session. The demo resets automatically
+                  after a service restart.
+                </p>
+              </div>
+            </div>
+
             <UploadZone file={ingestFile} onFileChange={handleFileChange} />
 
             <button
