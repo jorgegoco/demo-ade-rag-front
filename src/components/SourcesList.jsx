@@ -5,7 +5,7 @@
 import ChunkTypeBadge from './ChunkTypeBadge'
 import SourceCard from './SourceCard'
 
-export default function SourcesList({ sources, retrievalInfo }) {
+export default function SourcesList({ sources, retrievalInfo, docPdfSrc }) {
   return (
     <div className="flex flex-col gap-3">
       {/* Section header */}
@@ -43,7 +43,7 @@ export default function SourcesList({ sources, retrievalInfo }) {
       {sources && sources.length > 0 ? (
         <div className="flex flex-col gap-3">
           {sources.map((source) => (
-            <SourceCard key={source.chunk_id} source={source} />
+            <SourceCard key={source.chunk_id} source={source} docPdfSrc={docPdfSrc} />
           ))}
         </div>
       ) : (

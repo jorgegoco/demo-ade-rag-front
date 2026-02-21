@@ -33,10 +33,22 @@ export default function App() {
   const [ingestResult,  setIngestResult]  = useState(null)
   const [ingestError,   setIngestError]   = useState(null)
 
+  // ── Uploaded file (kept after ingest for PDF chunk rendering) ────────────
+  const [docFile, setDocFile] = useState(null)
+
   // ── Query flow ───────────────────────────────────────────────────────────
   const [queryResult,  setQueryResult]  = useState(null)
   const [queryLoading, setQueryLoading] = useState(false)
   const [queryError,   setQueryError]   = useState(null)
+
+  // ── PDF source URL for visual chunk rendering ─────────────────────────
+  // User-uploaded PDF → object URL; demo pre-loaded → static asset; otherwise null.
+  const docPdfSrc =
+    docFile?.type === 'application/pdf'
+      ? URL.createObjectURL(docFile)
+      : docStatus?.document_loaded
+        ? '/apple_10k.pdf'
+        : null
 
   // ── Derived: which RAG phase to highlight in PipelineVisual ─────────────
   const activePhase =
@@ -65,10 +77,12 @@ export default function App() {
     setIngestLoading(true)
     setIngestError(null)
     setIngestResult(null)
+    setDocFile(null)
     try {
       const data = await ingestDocument(ingestFile)
       if (!data.success) throw new Error(data.error || 'Ingest failed')
       setIngestResult(data)
+      setDocFile(ingestFile)
       // Refresh the status banner to show the new document
       const newStatus = await getStatus()
       setDocStatus(newStatus)
@@ -210,10 +224,13 @@ export default function App() {
                 <AnswerDisplay
                   answer={queryResult.answer}
                   question={queryResult.question}
+                  sources={queryResult.sources}
+                  docPdfSrc={docPdfSrc}
                 />
                 <SourcesList
                   sources={queryResult.sources}
                   retrievalInfo={queryResult.retrieval_info}
+                  docPdfSrc={docPdfSrc}
                 />
               </>
             )}

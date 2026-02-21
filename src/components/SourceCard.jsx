@@ -10,8 +10,9 @@ import { useState } from 'react'
 import { FileText } from 'lucide-react'
 import ChunkTypeBadge from './ChunkTypeBadge'
 import SimilarityBar from './SimilarityBar'
+import ChunkImage from './ChunkImage'
 
-export default function SourceCard({ source }) {
+export default function SourceCard({ source, docPdfSrc }) {
   const [expanded, setExpanded] = useState(false)
 
   // ADE wraps chunks with <a id='uuid'></a> anchor tags — strip them before display
@@ -52,12 +53,9 @@ export default function SourceCard({ source }) {
         )}
       </div>
 
-      {/* Bounding box — spatial coordinates in the original document (normalized 0–1) */}
-      {source.bbox && (
-        <div className="text-xs text-slate-400 font-mono bg-slate-50 rounded-lg px-3 py-1.5 leading-relaxed">
-          bbox&nbsp; x0:{source.bbox.x0?.toFixed(2)} y0:{source.bbox.y0?.toFixed(2)}&nbsp;
-          x1:{source.bbox.x1?.toFixed(2)} y1:{source.bbox.y1?.toFixed(2)}
-        </div>
+      {/* Visual crop of the chunk's location in the source document */}
+      {source.bbox && docPdfSrc && (
+        <ChunkImage pdfSrc={docPdfSrc} page={source.page} bbox={source.bbox} />
       )}
     </div>
   )
