@@ -25,7 +25,7 @@ Key concepts taught through the UI:
 - **Chunk types** — text, table, figure, marginalia etc., each color-coded consistently
 - **Hybrid search** — filter retrieval to a specific chunk type (e.g. tables only)
 - **Threshold tuning** — adjust minimum similarity to control result quality vs. quantity
-- **Bounding boxes** — spatial coordinates grounding each source back to its page location
+- **Visual grounding** — cropped PDF image of each source chunk rendered directly in the card, tracing answers back to the exact page region
 
 ---
 
@@ -37,6 +37,7 @@ Key concepts taught through the UI:
 | Styling | Tailwind CSS v4 |
 | Icons | lucide-react |
 | File upload | react-dropzone |
+| PDF rendering | pdfjs-dist (chunk visual grounding) |
 | State | Plain useState (no Redux) |
 | Backend | FastAPI (separate repo, deployed on Contabo VPS / Easypanel) |
 
@@ -54,9 +55,10 @@ src/
     ├── UploadZone.jsx       # Drag-and-drop upload (react-dropzone)
     ├── IngestResult.jsx     # Chunk summary + timing stats after ingest
     ├── QueryPanel.jsx       # Question input + advanced options drawer
-    ├── AnswerDisplay.jsx    # AI-generated answer display
+    ├── AnswerDisplay.jsx    # AI-generated answer display (+ visual crop when single source)
     ├── SourcesList.jsx      # Retrieval info + list of source chunks
-    ├── SourceCard.jsx       # Individual chunk: type, page, similarity, preview
+    ├── SourceCard.jsx       # Individual chunk: type, page, similarity, preview, visual crop
+    ├── ChunkImage.jsx       # Cropped PDF canvas rendered via pdfjs-dist
     ├── ChunkTypeBadge.jsx   # Color-coded chunk type pill
     ├── SimilarityBar.jsx    # Visual similarity score bar
     ├── LoadingSpinner.jsx   # Spinner with contextual message
